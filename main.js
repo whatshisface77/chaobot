@@ -25,7 +25,6 @@ for(const file of commandFiles){
 
 //Happens once as the bot starts up (AKA void start)
 client.once('ready', () => {
-    //755571634747736072
     console.log('Chao is online baybee');
 });
 
@@ -52,13 +51,13 @@ client.on('message', message =>{
 
 let scheduledMessageVictory = new cron.CronJob('00 30 19 * * *', () => {
     // This runs every day at 12:00:00am
-    let channel = client.channels.cache.get("755571634747736072");
+    let channel = client.channels.cache.get(//Channel ID);
     autoWinner.execute(channel);
   });
 
   let scheduledMessageNew = new cron.CronJob('00 31 19 * * *', () => {
     // This runs every day at 06:00:00am
-    let channel = client.channels.cache.get("755571634747736072");
+    let channel = client.channels.cache.get(//Channel ID);
     autoNew.execute(channel);
   });
   
