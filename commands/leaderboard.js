@@ -1,23 +1,7 @@
-
-const fs = require('fs');
 const Discord = require('discord.js');
 
-const stats = require("../models/stats.js");
-const mongoose = require("mongoose");
-const express = require("express");
-
 const sort = require("../js/sort.js");
-const dataManage = require("../js/data.js");
 const findData = require("../js/find.js");
-
-//Connecting to MongoDB Collection
-mongoose.connect('mongodb://localhost:27017/Stats');
-
-const connection = mongoose.connection;
-
-connection.once("open", function() {
-    console.log("MongoDB database connection established successfully");
-  });
 
 //Used for searching through the database for times, sorting times, and displaying them in a leaderboard style
 async function buildString(){
@@ -36,11 +20,12 @@ async function buildString(){
             for(j = 0; j < result.length; j++){
                 if(result[j].time == timeArray[i]){
                     fullResult = result[j];
+                    userArray[i] = fullResult.user;
                     break;
                 }
             }
 
-            userArray[i] = fullResult.user;
+            
 
         }catch(error){
             console.log("you suck!");

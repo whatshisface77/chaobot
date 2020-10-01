@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 
 const stats = require("../models/stats.js");
 const dataManage = require("../js/data.js");
+const findData = require("../js/find.js");
 const mongoose = require("mongoose");
 
 module.exports = {
@@ -13,13 +14,12 @@ module.exports = {
         var stopSort = false;
 
         //Only used for getting the total amount of models in the collection
-        await stats.find({}, function(err, result){
-            if(err){
-                result.send(err);
-            }else{
-                totalObj = result.length;
-            }
-        });
+        try{
+            const result = await findData.stats({});
+            totalObj = result.length;
+        }catch(error){
+            console.log("you suck!");
+        }
 
         //Obtaining data from the MongoDB collection
         for (i = 0;i < totalObj; i++){

@@ -9,15 +9,6 @@ const dataManage = require("../js/data.js");
 //track.json is where the set variables for which track and character will be used are stored until the next day rotation
 var trackData = require("../data/track.json");
 
-//Connecting to MongoDB Collection
-mongoose.connect('mongodb://localhost:27017/Stats');
-
-const connection = mongoose.connection;
-
-connection.once("open", function() {
-    console.log("MongoDB database connection established successfully");
-  });
-
 
 //Responsible for finding the immediate placement of the submitted time
 async function getRank(time){

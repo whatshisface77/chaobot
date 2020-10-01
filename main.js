@@ -6,6 +6,16 @@ const autoNew = require("./auto/newtrack.js");
 
 const client = new Discord.Client();
 
+//Connecting to hosted mongodb database
+const mongoose = require("mongoose");
+mongoose.connect('mongodb+srv://root:fuckyou123@stats.nejt4.mongodb.net/test', {useNewUrlParser: true});
+
+const connection = mongoose.connection;
+
+connection.once("open", function() {
+  console.log("MongoDB database connection established successfully");
+});
+
 //Prefix used to call the bot's commands
 const prefix = '!';
 
@@ -25,6 +35,7 @@ for(const file of commandFiles){
 
 //Happens once as the bot starts up (AKA void start)
 client.once('ready', () => {
+    //755571634747736072
     console.log('Chao is online baybee');
 });
 
@@ -49,15 +60,15 @@ client.on('message', message =>{
     }
 });
 
-let scheduledMessageVictory = new cron.CronJob('00 30 19 * * *', () => {
+let scheduledMessageVictory = new cron.CronJob('00 00 00 * * *', () => {
     // This runs every day at 12:00:00am
-    let channel = client.channels.cache.get(//Channel ID);
+    let channel = client.channels.cache.get("755571634747736072");
     autoWinner.execute(channel);
   });
 
-  let scheduledMessageNew = new cron.CronJob('00 31 19 * * *', () => {
+  let scheduledMessageNew = new cron.CronJob('00 00 06 * * *', () => {
     // This runs every day at 06:00:00am
-    let channel = client.channels.cache.get(//Channel ID);
+    let channel = client.channels.cache.get("755571634747736072");
     autoNew.execute(channel);
   });
   
@@ -65,4 +76,4 @@ let scheduledMessageVictory = new cron.CronJob('00 30 19 * * *', () => {
   scheduledMessageVictory.start();
   scheduledMessageNew.start();
 
-client.login('NzU1MjY0MTA4NjA5MTQyODI0.X2Awgw.ipO05J5uuXn221Gxi3jSjWm4RN4');
+client.login(/*insert token here*/);
