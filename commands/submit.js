@@ -23,6 +23,17 @@ async function getRank(time){
   return 0;
 }
 
+function findStats(options) {
+  return new Promise((resolve, reject) => {
+      return stats.findOne(options, function (err, result) {
+          if (err) {
+              return reject(err)
+          }
+          return resolve(result)
+      })
+  })
+}
+
 //In charge of submitting the actual data into the MongoDB Collection as a full Stats Model
 async function submit(message, record){
 
@@ -36,36 +47,38 @@ async function submit(message, record){
     var sameUser = true;
     var userTime;
 
-    //Check if this user already has a time, if so, then update and end submit function
-    await stats.findOne({user: message.member.user.username}, async function(err, result){
-        if(err){
-          result.send(err);
-        }if(!result){
-          sameUser = false;
-        }else{
-          var oldTime = await dataManage.convert(result.time);
-          var newTime = await dataManage.convert(record);
+    try{
+      const result = await findStats({user: message.member.user.username});
+     if(!result){
+      sameUser = false;
+    }else{
+      var oldTime = await dataManage.convert(result.time);
+      var newTime = await dataManage.convert(record);
 
-          //Now let's check if the new time is actually faster than the old one, if not, warn that bitch
-          if(oldTime < newTime){
+      //Now let's check if the new time is actually faster than the old one, if not, warn that bitch
+      if(oldTime < newTime){
 
-              message.channel.send('**WARNING:** The time you would like to submit, **' + record + '**, is not faster than the time you have stored in our system, **' + result.time + '**. If this is unintentional, feel free to re-submit your faster time using the !submit command. If this is intentional, ignore this message.');
+          message.channel.send('**WARNING:** The time you would like to submit, **' + record + '**, is not faster than the time you have stored in our system, **' + result.time + '**. If this is unintentional, feel free to re-submit your faster time using the !submit command. If this is intentional, ignore this message.');
 
-              //TODO: Put something here that allows for delayed message with extra response to confirm slower time (ex. Discord Message Collector)    
-          }
+          //TODO: Put something here that allows for delayed message with extra response to confirm slower time (ex. Discord Message Collector)    
+      }
 
 
-          result.time = record;
-          result.save(function (err) {
-            if (err)
-            {
-                result.send(err);
-            }
-            
-        });
+      result.time = record;
+      result.save(function (err) {
+        if (err)
+        {
+            result.send(err);
         }
-    });
+        
+      });
 
+    }
+    }catch(error){
+        console.log("you suck!");
+    }
+
+    //If the user is the same
     if(!sameUser){
 
         //If the format is good and the user is new, create new model to hold data
@@ -112,6 +125,7 @@ module.exports = {
               .setColor('#FF0000')
               .setTitle("Good job " + message.member.user.username + "! Your time of " + args[0] + " has been submitted. In this track's leaderboard, you are placed at **Rank " + rank + "**!");
           await message.channel.send(leaderEmbed);
+
 
         }else{
           //Error message for incorrect format

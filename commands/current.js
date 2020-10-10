@@ -33,6 +33,8 @@ module.exports = {
 
         }else{
 
+            //message.channel.send(today.getHours() + " : " + today.getMinutes());
+
             //Generate course
             await fs.readdir(courseDir, async (err, files)=>{
                 courseMax = files.length;

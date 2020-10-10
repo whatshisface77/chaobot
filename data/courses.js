@@ -155,7 +155,12 @@ var courseArray = [
     "Peach's Castle",
     "Arid Sands",
     "Volcanic Valley Classic",
-    "Chemical Facility Zone"
+    "Chemical Facility Zone",
+    "Lake Margorite Zone",
+    "Coastal Temple Zone",
+    "Kart Airlines Zone",
+    "Honeybee Industry Zone",
+    "Crimson Core Zone"
 ]
 
 module.exports.courseArray = courseArray;

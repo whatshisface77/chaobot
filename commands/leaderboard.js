@@ -19,9 +19,19 @@ async function buildString(){
             const result = await findData.stats({time: timeArray[i]});
             for(j = 0; j < result.length; j++){
                 if(result[j].time == timeArray[i]){
+                    var existingUser = false;
                     fullResult = result[j];
-                    userArray[i] = fullResult.user;
-                    break;
+                    
+                    //This for loop is for dissecting ties
+                    for(k = 0; k < userArray.length; k++){
+                        if(fullResult.user == userArray[k]){
+                            existingUser = true;
+                        }
+                    }
+                    if(!existingUser){
+                        userArray[i] = fullResult.user;
+                        break;
+                    }
                 }
             }
 

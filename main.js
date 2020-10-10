@@ -35,7 +35,8 @@ for(const file of commandFiles){
 
 //Happens once as the bot starts up (AKA void start)
 client.once('ready', () => {
-    //755571634747736072
+    //755571634747736072 My solo server
+    //761740618531602453 SRB2K server totd-track
     console.log('Chao is online baybee');
 });
 
@@ -60,15 +61,15 @@ client.on('message', message =>{
     }
 });
 
-let scheduledMessageVictory = new cron.CronJob('00 00 00 * * *', () => {
+let scheduledMessageVictory = new cron.CronJob('00 00 09 * * *', () => {
     // This runs every day at 12:00:00am
-    let channel = client.channels.cache.get("755571634747736072");
+    let channel = client.channels.cache.get();
     autoWinner.execute(channel);
   });
 
-  let scheduledMessageNew = new cron.CronJob('00 00 06 * * *', () => {
+  let scheduledMessageNew = new cron.CronJob('00 00 10 * * *', () => {
     // This runs every day at 06:00:00am
-    let channel = client.channels.cache.get("755571634747736072");
+    let channel = client.channels.cache.get();
     autoNew.execute(channel);
   });
   
@@ -76,4 +77,4 @@ let scheduledMessageVictory = new cron.CronJob('00 00 00 * * *', () => {
   scheduledMessageVictory.start();
   scheduledMessageNew.start();
 
-client.login(/*insert token here*/);
+client.login(/*token*/);
